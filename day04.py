@@ -545,3 +545,36 @@ valids = 0
 for phrase in inputs:
     valids += is_passphrase_valid(phrase)
 print "valid inputs: {}".format(valids)
+
+print ""
+print "part 2:"
+
+
+def is_passphrase_valid_extended(phrase):
+    word_list = phrase.split(" ")
+    word_set = set()
+    for word in word_list:
+        word_set.add(''.join(sorted(word)))
+    return len(word_list) == len(word_set)
+
+
+tests = [
+    {'in': 'abcde fghij', 'out': True},
+    {'in': 'abcde xyz ecdab', 'out': False},
+    {'in': 'a ab abc abd abf abj', 'out': True},
+    {'in': 'iiii oiii ooii oooi oooo', 'out': True},
+    {'in': 'oiii ioii iioi iiio', 'out': False},
+]
+
+for test in tests:
+    if isinstance(test, dict):
+        in_value = test.get('in')
+        out_value = test.get('out')
+        out_result = is_passphrase_valid_extended(in_value)
+        if out_value == out_result:
+            print "{} => {} - OK".format(in_value, out_result)
+
+valids = 0
+for phrase in inputs:
+    valids += is_passphrase_valid_extended(phrase)
+print "valid inputs: {}".format(valids)
