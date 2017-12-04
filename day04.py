@@ -540,6 +540,8 @@ for test in tests:
         out_result = is_passphrase_valid(in_value)
         if out_value == out_result:
             print "{} => {} - OK".format(in_value, out_result)
+        else:
+            print "{} => {} - FAIL ({})".format(in_value, out_result, out_value)
 
 valids = 0
 for phrase in inputs:
@@ -573,6 +575,8 @@ for test in tests:
         out_result = is_passphrase_valid_extended(in_value)
         if out_value == out_result:
             print "{} => {} - OK".format(in_value, out_result)
+        else:
+            print "{} => {} - FAIL ({})".format(in_value, out_result, out_value)
 
 valids = 0
 for phrase in inputs:
