@@ -526,11 +526,12 @@ print "part 1: duplicate words"
 
 
 def is_passphrase_valid(phrase):
+    """
+        a set can only contain unique values
+        so if the list and the set are the same size, no word was removed
+    """
     word_list = phrase.split(" ")
-    word_set = set()
-    for word in word_list:
-        word_set.add(word)
-    return len(word_list) == len(word_set)
+    return len(word_list) == len(set(word_list))
 
 
 for test in tests:
@@ -553,10 +554,12 @@ print "part 2:"
 
 
 def is_passphrase_valid_extended(phrase):
+    """
+        each list item is alphabetically sorted,
+        and again the value is added to the set uniquely
+    """
     word_list = phrase.split(" ")
-    word_set = set()
-    for word in word_list:
-        word_set.add(''.join(sorted(word)))
+    word_set = set(map(lambda v: ''.join(sorted(v)), word_list))
     return len(word_list) == len(word_set)
 
 
