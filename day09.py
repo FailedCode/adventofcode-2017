@@ -57,3 +57,47 @@ for test in tests:
         print "{} => {} - FAIL ({})".format(in_value, out_result, out_value)
 
 print "puzzle: {}".format(group_score(inputs))
+
+
+print ""
+print "part 2: count garbage"
+
+
+tests = [
+    {'in': '<>', 'out': 0, 'f': 'garbage_count'},
+    {'in': '<random characters>', 'out': 17, 'f': 'garbage_count'},
+    {'in': '<<<<>', 'out': 3, 'f': 'garbage_count'},
+    {'in': '<{!>}>', 'out': 2, 'f': 'garbage_count'},
+    {'in': '<!!>', 'out': 0, 'f': 'garbage_count'},
+    {'in': '<!!!>>', 'out': 0, 'f': 'garbage_count'},
+    {'in': '<{o"i!a,<{i<a>', 'out': 10, 'f': 'garbage_count'},
+]
+
+
+def garbage_count(chars):
+    chars = re.sub('!.', '', chars)
+    count = 0
+    isTrash = 0
+    for c in chars:
+        if c == '<' and not isTrash:
+            isTrash = 1
+            continue
+        if c == '>':
+            isTrash = 0
+            continue
+        if isTrash:
+            count += 1
+    return count
+
+
+for test in tests:
+    in_value = test.get('in')
+    out_value = test.get('out')
+    func = eval(test.get('f'))
+    out_result = func(in_value)
+    if out_value == out_result:
+        print "{} => {} - OK".format(in_value, out_result)
+    else:
+        print "{} => {} - FAIL ({})".format(in_value, out_result, out_value)
+
+print "puzzle: {}".format(garbage_count(inputs))
