@@ -44,3 +44,47 @@ for test in tests:
         print "{} => {} - FAIL ({})".format(in_value, out_result, out_value)
 
 print "puzzle: {}".format(calculate_register_value(inputs))
+
+
+print ""
+print "part 2: largest at runtime"
+
+
+tests = [
+    {'in': """b inc 5 if a > 1
+a inc 1 if b < 5
+c dec -10 if a >= 1
+c inc -20 if c == 10""", 'out': 10, 'f': 'calculate_highest_runtime_register_value'},
+]
+
+
+def calculate_highest_runtime_register_value(instructionText):
+    lines = instructionText.split("\n")
+    register = {}
+    maxValue = -9999
+    for line in lines:
+        reg, instruction, value, _if, reg_test, symbol, value_test = line.split(" ")
+        condition = "{} {} {}".format(register.get(reg_test, 0), symbol, value_test)
+        if eval(condition):
+            reg_value = register.get(reg, 0)
+            if instruction == 'inc':
+                reg_value += int(value)
+            if instruction == 'dec':
+                reg_value -= int(value)
+            register[reg] = reg_value
+            if reg_value > maxValue:
+                maxValue = reg_value
+    return maxValue
+
+
+for test in tests:
+    in_value = test.get('in')
+    out_value = test.get('out')
+    func = eval(test.get('f'))
+    out_result = func(in_value)
+    if out_value == out_result:
+        print "{} => {} - OK".format(in_value, out_result)
+    else:
+        print "{} => {} - FAIL ({})".format(in_value, out_result, out_value)
+
+print "puzzle: {}".format(calculate_highest_runtime_register_value(inputs))
